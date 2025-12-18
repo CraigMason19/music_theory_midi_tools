@@ -1,0 +1,62 @@
+.\.venv\Scripts\Activate.ps1
+
+
+
+from django.http import HttpResponse
+import mido
+
+def midi_exporter(request):
+    # Example: simple C major scale
+    mid = mido.MidiFile()
+    track = mido.MidiTrack()
+    mid.tracks.append(track)
+
+    for note in [60, 62, 64, 65, 67, 69, 71, 72]:  # C D E F G A B C
+        track.append(mido.Message('note_on', note=note, velocity=64, time=480))
+        track.append(mido.Message('note_off', note=note, velocity=64, time=960))
+
+    response = HttpResponse(content_type='audio/midi')
+    response['Content-Disposition'] = 'attachment; filename="scale.mid"'
+    mid.save(file=response)
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
+class MIDINote:
+    def __init__(self, note: Note, octave: int):
+        self.note = note
+        self.octave = octave
+
+    def __str__(self):
+        return f"{self.note}{self.octave}"
+    
+    def __repr__(self):
+        return f"MIDINote({self.note}, {self.octave})"
+
+class MIDIChord:
+    def __init__(self, chord: Chord):
+        self.chord = chord
+        self.midi_notes = [MIDINote(note, 4) for note in chord.notes]
+
+    def __str__(self):
+        return f"{str(self.chord)}"
+    
+    def __repr__(self):
+        return f"MIDIChord({str(self.chord)}, {[str(note) for note in self.midi_notes]})"
+
+mn = MIDINote(Note.C, 4)
+
+mc = MIDIChord(Chord(Note.C, ChordType.Major7))
+
+print(mc)
+print(str(mc))
+print(repr(mc))

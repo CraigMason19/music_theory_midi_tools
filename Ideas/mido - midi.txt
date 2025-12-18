@@ -1,0 +1,53 @@
+import mido
+
+# Define MIDI note values for C Major chord (C4-E4-G4)
+c_major_chord = [60, 64, 67]  # MIDI numbers for C, E, G
+
+# Create a new MIDI file and track
+mid = mido.MidiFile()
+track = mido.MidiTrack()
+mid.tracks.append(track)
+
+# Add the notes to the track
+for note in c_major_chord:
+    track.append(mido.Message('note_on', note=note, velocity=64, time=0))
+
+# Hold the chord for some time
+track.append(mido.Message('note_off', note=60, velocity=64, time=480))
+track.append(mido.Message('note_off', note=64, velocity=64, time=0))
+track.append(mido.Message('note_off', note=67, velocity=64, time=0))
+
+# Save the MIDI file
+mid.save('c_major_chord.mid')
+
+print("C Major chord MIDI file saved!")
+
+
+
+
+
+class Note:
+    NOTE_TO_MIDI = {
+        "C": 60, "C#": 61, "D": 62, "D#": 63, "E": 64, "F": 65,
+        "F#": 66, "G": 67, "G#": 68, "A": 69, "A#": 70, "B": 71
+    }
+    
+    def __init__(self, name, octave=4):
+        self.name = name
+        self.octave = octave
+        self.midi_value = self.NOTE_TO_MIDI[name] + (octave - 4) * 12
+        self.hertz = self.midi_to_hz(self.midi_value)
+
+    @staticmethod
+    def midi_to_hz(midi_value):
+        return 440.0 * (2 ** ((midi_value - 69) / 12))  # A4 = 440 Hz
+
+    def __repr__(self):
+        return f"Note({self.name}{self.octave}, MIDI: {self.midi_value}, Hz: {self.hertz:.2f})"
+
+
+# Example usage
+note_c = Note("C", 4)
+print(note_c)  # Note(C4, MIDI: 60, Hz: 261.63)
+note_a = Note("A", 5)
+print(note_a)  # Note(A5, MIDI: 81, Hz: 880.00)
