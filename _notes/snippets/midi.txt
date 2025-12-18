@@ -1,0 +1,30 @@
+.\.venv\Scripts\Activate.ps1
+
+
+
+from django.http import HttpResponse
+import mido
+
+def midi_exporter(request):
+    # Example: simple C major scale
+    mid = mido.MidiFile()
+    track = mido.MidiTrack()
+    mid.tracks.append(track)
+
+    for note in [60, 62, 64, 65, 67, 69, 71, 72]:  # C D E F G A B C
+        track.append(mido.Message('note_on', note=note, velocity=64, time=480))
+        track.append(mido.Message('note_off', note=note, velocity=64, time=960))
+
+    response = HttpResponse(content_type='audio/midi')
+    response['Content-Disposition'] = 'attachment; filename="scale.mid"'
+    mid.save(file=response)
+    return response
+
+
+
+
+
+
+
+
+
