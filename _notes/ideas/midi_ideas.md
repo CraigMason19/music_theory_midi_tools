@@ -48,29 +48,6 @@ Real-time MIDI output – Send MIDI signals straight from your PyQt6 program int
 
 
 
-[General ideas]
-```python
-def Class MidiNote:
-    def __init__(self, note: Note):
-        self.note = note
-        self.octave ?
-        self.hertz ?
-
-
-def Class Exporter:
-    def __init__(self, prog: Progression):
-        pass
-
-    def export_sequence(self, tempo: number, num_repeitions: Number =1):
-        pass
-
-    
-
-
-```
- 
-
-
 
 
 
