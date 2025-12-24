@@ -1,0 +1,2 @@
+- convert a phrase into a morse string
+- then for each dot or dash generate a random note in scale. and have it match either the dot or dash.
