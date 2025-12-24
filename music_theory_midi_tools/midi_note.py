@@ -10,12 +10,12 @@ class MIDINote():
     def octave_up(self) -> Self:
         return MIDINote(self.note, self.octave + 1)
 
-    octave_above = octave_up
+    octave_above = octave_up # Alias
 
     def octave_down(self) -> Self:
         return MIDINote(self.note, self.octave - 1)
 
-    octave_below = octave_up
+    octave_below = octave_down # Alias
 
     def __str__(self) -> str:
         return f"{self.note}{self.octave}"
@@ -25,5 +25,3 @@ class MIDINote():
     
 
 MIDDLE_C = MIDINote(Note.C, 4)
-
-
